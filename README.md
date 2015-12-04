@@ -11,8 +11,7 @@ This is a simple example on how to use cuda to accelerate the GMM. You can use t
 Compiling the CUDA Code (Linux)    
 <br />$ make
 
-My compiler:
-<br />nvcc: NVIDIA (R) Cuda compiler driver Cuda compilation tools, release 7.5, V7.5.17
+My compiler: nvcc: NVIDIA (R) Cuda compiler driver Cuda compilation tools, release 7.5, V7.5.17
 
 ------------------------------------------
 Running the Code (Linux)
