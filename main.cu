@@ -64,6 +64,10 @@ float3 operator*(const float a, const float3 &b) {
 	return make_float3(a*b.x, a*b.y, a*b.z);
 }
 
+/*
+ * frame is from camera, this function is to initialize the gaussian models
+ * It only be invoked once at first
+ */
 __global__ void
 initializeGmm(uchar3* frame, gaussian_model* components)
 {
@@ -79,6 +83,10 @@ initializeGmm(uchar3* frame, gaussian_model* components)
 	}
 }
 
+/*
+ * frame is from camera, gmm_frame is output filtered by gmm, components always stay on gpu's global memory
+ * each invoking performGmm will update the components, return a new gmm_frame
+ */
 __global__ void
 performGmm(const uchar3* frame, unsigned char* gmm_frame, gaussian_model* components)
 {
@@ -206,14 +214,22 @@ performGmm(const uchar3* frame, unsigned char* gmm_frame, gaussian_model* compon
 	}
 }
 
-uchar3* d_frame = NULL;
+/*
+ * for allocating device memory
+ */
+uchar3* d_frame = NULL;	
 unsigned char* d_gmm_frame = NULL;
 gaussian_model* d_components;
-gaussian_model h_components[MAX_GMM_COMPONENTS];
 
+/*
+ * for kernel grid and thread num 
+ */
 int threadsPerBlock = THREADS;
 int blocksPerGrid = (FRAME_WIDTH*FRAME_HEIGHT) / threadsPerBlock;
 
+/*
+ * cpu invoke gpu kernel to initialize gmm models 
+ */
 void gpu_initialize_gmm(const Mat &frame)
 {
 	cudaError_t err = cudaSuccess;
@@ -259,6 +275,9 @@ void gpu_initialize_gmm(const Mat &frame)
 	}
 }
 
+/*
+ * cpu invoke gpu kernel to perform CUDA-GMM and get output frame filtered by CUDA-GMM
+ */
 void gpu_perform_gmm(const Mat &frame, Mat &gmm_frame)
 {
 	cudaError_t err = cudaSuccess;
@@ -343,8 +362,8 @@ int main(int argc, char** argv)
 		imshow("GMM", gmm_frame);
 
 		//User Key Input
-		char c = waitKey(30);
-		if (c == 'q') break;
+		char c = waitKey(10);
+		if (c == 27) break; // got ESC
 	}
 
 	cudaError_t err = cudaFree(d_frame);
