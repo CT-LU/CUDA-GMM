@@ -1,6 +1,6 @@
 # CUDA-GMM
 
-About:
+###Introduction
 Gaussian Mixture Model accelerated by CUDA
 
 This is a simple example on how to use cuda to accelerate the GMM. You can use this program to extract the moving objects from webcam. I only use opencv3.0 for reading frames from camera and showing the image filtered by my GMM. That's all i use the extra library. It's easy to understand the algorithm in this example. 
@@ -8,17 +8,16 @@ This is a simple example on how to use cuda to accelerate the GMM. You can use t
 這是一個狠簡單的例子，CUDA加速高斯混合模型可以濾出攝影機中會移動的物件，我只使用opencv3.0讀攝影機及顯示照片的結果，可以從這個例子清楚了解演算法的實作。
 
 ------------------------------------------
-Compiling the CUDA Code (Linux)    
-<br />$ make
-
-My compiler: nvcc: NVIDIA (R) Cuda compiler driver Cuda compilation tools, release 7.5, V7.5.17
-
-------------------------------------------
-Running the Code (Linux)
-<br />$ ./gmmWithcuda
+###Compiling the CUDA Code (Linux)    
+$ make
+<br />My compiler: nvcc: NVIDIA (R) Cuda compiler driver Cuda compilation tools, release 7.5, V7.5.17
 
 ------------------------------------------
-License
+###Running the Code (Linux)
+$ ./gmmWithcuda
+
+------------------------------------------
+###License
 
 The MIT License (MIT)
 
