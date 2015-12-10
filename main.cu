@@ -26,7 +26,8 @@ using namespace std;
 
 //GMM parameter
 #define ALPHA 0.00005
-#define DEF_COVARIANCE  11.0
+#define DEF_COVARIANCE  8.0
+#define MAX_COVARIANCE  11.0
 #define COVARIANCE_THRESHOLD (2.5*2.5)
 #define DEF_WEIGHT 0.00005
 
@@ -150,16 +151,18 @@ performGmm(const uchar3* frame, unsigned char* gmm_frame, gaussian_model* compon
 				sum_of_square_diff = tmp.x + tmp.y + tmp.z;
 
 				//Update covariance let Rho = ALPHA
-				current_component->covariance[index] = covariance_runtime = covariance_runtime + ALPHA*(sum_of_square_diff - covariance_runtime);
+				if (covariance_runtime < MAX_COVARIANCE) {
+					covariance_runtime = covariance_runtime + ALPHA*(sum_of_square_diff - covariance_runtime);
+					current_component->covariance[index] = covariance_runtime;
+				}
 
 				//Set match flag
 				isMatch = true;
 
-			} else {
-				//UnMatch current Gaussian component
-				current_component->weight[index] = (1-ALPHA)*(current_component->weight[index]);
 			}
-		} else {
+		}
+
+		if (!isMatch) {
 			//UnMatch current Gaussian component
 			current_component->weight[index] = (1-ALPHA)*(current_component->weight[index]);
 		}
