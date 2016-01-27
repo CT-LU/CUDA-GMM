@@ -89,7 +89,7 @@ initializeGmm(uchar3* frame, gaussian_model* components)
  * each invoking performGmm will update the components, return a new gmm_frame
  */
 __global__ void
-performGmm(const __restrict__ uchar3* frame, unsigned char* gmm_frame, gaussian_model* components)
+performGmm(const uchar3* __restrict__ frame, unsigned char* gmm_frame, gaussian_model* components)
 {
 	const int index = blockDim.x * blockIdx.x + threadIdx.x;
 	//GMM processing parameter
