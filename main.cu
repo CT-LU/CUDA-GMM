@@ -18,16 +18,16 @@
 using namespace cv;
 using namespace std;
 
-#define FRAME_WIDTH		    1280
-#define FRAME_HEIGHT	    720
-#define FRAME_CHANNELS	    3
-#define FRAME_SIZE          (FRAME_WIDTH*FRAME_HEIGHT*FRAME_CHANNELS)
-#define MAX_GMM_COMPONENTS	3
+#define FRAME_WIDTH 1280
+#define FRAME_HEIGHT 720
+#define FRAME_CHANNELS 3
+#define FRAME_SIZE (FRAME_WIDTH*FRAME_HEIGHT*FRAME_CHANNELS)
+#define MAX_GMM_COMPONENTS 3
 
 //GMM parameter
 #define ALPHA 0.00005
-#define DEF_COVARIANCE  8.0
-#define MAX_COVARIANCE  11.0
+#define DEF_COVARIANCE 8.0
+#define MAX_COVARIANCE 11.0
 #define COVARIANCE_THRESHOLD (2.5*2.5)
 #define DEF_WEIGHT 0.00005
 
