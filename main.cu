@@ -18,10 +18,10 @@
 using namespace cv;
 using namespace std;
 
-#define FRAME_WIDTH		1280
-#define FRAME_HEIGHT		720
-#define FRAME_CHANNELS		3
-#define FRAME_SIZE		(FRAME_WIDTH*FRAME_HEIGHT*FRAME_CHANNELS)
+#define FRAME_WIDTH		    1280
+#define FRAME_HEIGHT	    720
+#define FRAME_CHANNELS	    3
+#define FRAME_SIZE          (FRAME_WIDTH*FRAME_HEIGHT*FRAME_CHANNELS)
 #define MAX_GMM_COMPONENTS	3
 
 //GMM parameter
@@ -89,7 +89,7 @@ initializeGmm(uchar3* frame, gaussian_model* components)
  * each invoking performGmm will update the components, return a new gmm_frame
  */
 __global__ void
-performGmm(const uchar3* frame, unsigned char* gmm_frame, gaussian_model* components)
+performGmm(const __restrict__ uchar3* frame, unsigned char* gmm_frame, gaussian_model* components)
 {
 	const int index = blockDim.x * blockIdx.x + threadIdx.x;
 	//GMM processing parameter
@@ -105,8 +105,8 @@ performGmm(const uchar3* frame, unsigned char* gmm_frame, gaussian_model* compon
 	gaussian_model* current_component = NULL;
 
 	//get BGR value from each pixel
-
-	pixel_value = make_float3(frame[index].x, frame[index].y, frame[index].z);
+    uchar3 pixel = frame[index];
+	pixel_value = make_float3(pixel.x, pixel.y, pixel.z);
 	
 	//Macthing current pixel for GMM
 #pragma unroll
